@@ -10,4 +10,7 @@ import types
 import users
 import requests
 import utils
+
+from MDCS import MDCS
+
 requests.packages.urllib3.disable_warnings()
