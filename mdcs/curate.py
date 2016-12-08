@@ -1,11 +1,13 @@
 #! /usr/bin/env python
+import os
 import requests
 from templates import current_id
 from utils import check_response
 
-def curate(file_name,file_title,template_id,host,user,pswd,cert=None,content=None):
-    if content is None:
-        with open(file_name, 'r') as f: 
+def curate(content, file_title, template_id, host, user, pswd, cert=None):
+
+    if os.path.isfile(content):
+        with open(content, 'r') as f: 
             content = f.read()
     data=dict()
     data['content']=[content]
