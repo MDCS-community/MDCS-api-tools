@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 import requests
 from utils import check_response
+import os
 
 def add(filename,title,host,user,pswd,cert=None,version=None,dependencies=None):
     url = host.strip("/") + "/rest/types/add"
@@ -10,7 +11,7 @@ def add(filename,title,host,user,pswd,cert=None,version=None,dependencies=None):
     
     data=dict()
     data['content'] = [xsd_data]
-    data['filename'] = [filename]
+    data['filename'] = [os.path.basename(filename)]
     data['title'] = [title]
     if version: data['typeVersion'] = [version]
     if dependencies: data['dependencies[]'] = dependencies
