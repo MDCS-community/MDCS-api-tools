@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 import os
 import requests
-from templates import current_id
-from utils import check_response
+from .templates import current_id
+from .utils import check_response
 
 def curate(content, file_title, template_id, host, user, pswd, cert=None):
 

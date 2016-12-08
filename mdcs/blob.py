@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 import requests
-from utils import check_response
+from .utils import check_response
 
 def upload(name,host,user,pswd,cert=None):
     url = host.strip("/") + "/rest/blob"
