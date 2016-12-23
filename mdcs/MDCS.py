@@ -415,7 +415,7 @@ class MDCS(object):
         
     def add_record(self, content, title, template, refresh=True):
         """Add a record to the MDCS instance"""
-        
+
         if not isinstance(template, pd.Series):
             template = self.get_template(template)
         curate(content, title, template.id, self.host, self.user, self.__pswd, cert=self.cert)
@@ -486,7 +486,9 @@ class MDCS(object):
         
     def add_file(self, filename):
         return blob.upload(filename, self.host, self.user, self.__pswd, cert=self.cert)
-        
+    
+    def get_file(self, url):
+        return blob.download(url, self.user, self.__pswd, cert=self.cert)
         
         
         
