@@ -8,3 +8,8 @@ def upload(name,host,user,pswd,cert=None):
     r = requests.post(url, files=files, auth=(user, pswd), verify=cert)
     result = check_response(r)
     return result['handle']
+    
+def download(url,user,pswd,cert=None):
+    r = requests.get(url, auth=(user, pswd), verify=cert)
+    result = check_response(r)
+    return r.content
