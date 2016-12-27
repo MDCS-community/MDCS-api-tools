@@ -16,7 +16,7 @@ class MDCS(object):
     Class wrapper around the MDCS-api Python tools
     """
     
-    def __init__(self, host=None, user=None, pswd=None, cert=None, records_fetch=True):
+    def __init__(self, host=None, user=None, pswd=None, cert=None, build_records=True, records_format=None, records_id=None, records_template=None, records_title=None):
         """
         Class initializer. Stores MDCS access information and calls refresh() 
         to build local DataFrames of MDCS records, types and templates.
@@ -28,7 +28,7 @@ class MDCS(object):
         pswd -- string password or file location containing only the password.
                 if not given in user or here, then a prompt will ask for it. 
         cert -- string path to certification information file.
-        records_fetch -- indicates if the records DataFrame should be built
+        build_records -- indicates if the records DataFrame should be built
                          automatically. For large databases, it may be 
                          beneficial to not build immediately and call 
                          build_records() directly after initializing.
@@ -45,11 +45,11 @@ class MDCS(object):
                 self.user = (user, pswd)
         
         #Set default records search parameters
-        self.__records_fetch =    records_fetch
-        self.__records_format =   None    
-        self.__records_id =       None
-        self.__records_template = None
-        self.__records_title =    None
+        self.__build_records =    build_records
+        self.__records_format =   records_format    
+        self.__records_id =       records_id
+        self.__records_template = records_template
+        self.__records_title =    records_title
         self.__records =          None
         self.__templates =        None
         self.__xsd_types =        None
@@ -144,7 +144,7 @@ class MDCS(object):
             self.__xsd_types = pd.DataFrame(types.select_current(    self.host, self.user, self.__pswd, cert=self.cert))
             self.__templates = pd.DataFrame(templates.select_current(self.host, self.user, self.__pswd, cert=self.cert))
     
-        if self.__records_fetch:
+        if self.__build_records:
             self.build_records(format =   self.__records_format, 
                                id =       self.__records_id, 
                                template = self.__records_template, 
@@ -200,7 +200,7 @@ class MDCS(object):
         self.__records_id =       id
         self.__records_template = template
         self.__records_title =    title
-        self.__records_fetch =    True
+        self.__build_records =    True
         
         if format is None and id is None and template is None and title is None:
             self.__records = pd.DataFrame(explore.select_all(self.host,self.user,self.__pswd,cert=self.cert))
