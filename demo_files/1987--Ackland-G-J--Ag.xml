@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LAMMPS-potential>
+  <potential>
+    <key>dc4149ce-3592-4131-8683-ecf654d5a519</key>
+    <id>1987--Ackland-G-J--Ag</id>
+  </potential>
+  <units>metal</units>
+  <atom_style>atomic</atom_style>
+  <atom>
+    <element>Ag</element>
+    <mass>107.8682</mass>
+  </atom>
+  <pair_style>
+    <type>eam/fs</type>
+  </pair_style>
+  <pair_coeff>
+    <term>
+      <file>Ag.eam.fs</file>
+    </term>
+    <term>
+      <symbols>True</symbols>
+    </term>
+  </pair_coeff>
+</LAMMPS-potential>
