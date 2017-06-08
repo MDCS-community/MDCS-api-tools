@@ -52,7 +52,7 @@ def get_function_args():
 
 ''')
     parser.add_argument(
-        '-blob',
+        '-blob', 
         action='store_true',
         dest='blob',
         help=
@@ -75,7 +75,7 @@ def get_function_args():
 
 ''')
     parser.add_argument(
-        '-templates',
+        '-templates', 
         action='store_true',
         dest='templates',
         help=
@@ -94,10 +94,10 @@ def get_function_args():
            -next <ID of template to be promoted to current> [optional]
 -restore   Restore a deleted Template:
            -id <ID of template to restore>
-
+           
 ''')
     parser.add_argument(
-        '-types',
+        '-types', 
         action='store_true',
         dest='types',
         help=
@@ -116,7 +116,7 @@ def get_function_args():
            -next <ID of type to be promoted to current> [optional]
 -restore   Restore a deleted Type:
            -id <ID of type to restore>
-
+           
 ''')
     parser.add_argument(
         '-smart-xsd',
@@ -128,7 +128,7 @@ def get_function_args():
 ''')
     known_args, unknown_args = parser.parse_known_args()
     args = vars(known_args)
-
+    
     # curate command line input
     if args['curate']:
         parser.add_argument(
@@ -147,7 +147,7 @@ def get_function_args():
             dest='record_name',
             default=None,
             type=str)
-
+    
     # blob command line input
     if args['blob']:
         parser.add_argument(
@@ -155,7 +155,7 @@ def get_function_args():
             dest='file',
             type=str,
             required=True)
-
+    
     # explore command line input
     if args['explore']:
         parser.add_argument(
@@ -174,18 +174,18 @@ def get_function_args():
             type=str,
             default=None)
         parser.add_argument(
-            '-j',
+            '-j', 
             action='store_true',
             dest='download_json')
         parser.add_argument(
-            '-x',
+            '-x', 
             action='store_true',
             dest='download_xml')
         parser.add_argument(
-            '-delete',
+            '-delete', 
             action='store_true',
             dest='delete_record')
-
+    
     # templates command line input
     if args['templates']:
         parser.add_argument(
@@ -218,7 +218,7 @@ def get_function_args():
             dest='templates_restore')
         known_args, unknown_args = parser.parse_known_args()
         args = vars(known_args)
-
+        
         if args['templates_add']:
             parser.add_argument(
                 "-x",
@@ -240,14 +240,14 @@ def get_function_args():
                 dest='dependencies',
                 type=str,
                 default=None)
-
+        
         if args['templates_find']:
             parser.add_argument(
                 "-n",
                 dest='name',
                 type=str,
                 required=True)
-
+        
         if args['templates_delete']:
             parser.add_argument(
                 "-id",
@@ -259,47 +259,47 @@ def get_function_args():
                 dest='next',
                 type=str,
                 default=None)
-
+    
         if args['templates_restore']:
             parser.add_argument(
                 "-id",
                 dest='id',
                 type=str,
                 required=True)
-
+    
     # types command line input
     if args['types']:
         parser.add_argument(
-            '-add',
+            '-add', 
             action='store_true',
             dest='types_add')
         parser.add_argument(
-            '-all',
+            '-all', 
             action='store_true',
             dest='types_all')
         parser.add_argument(
-            '-download',
+            '-download', 
             action='store_true',
             dest='download_xsd')
         parser.add_argument(
-            '-current',
+            '-current', 
             action='store_true',
             dest='types_current')
         parser.add_argument(
-            '-find',
+            '-find', 
             action='store_true',
             dest='types_find')
         parser.add_argument(
-            '-delete',
+            '-delete', 
             action='store_true',
             dest='types_delete')
         parser.add_argument(
-            '-restore',
+            '-restore', 
             action='store_true',
             dest='types_restore')
         known_args, unknown_args = parser.parse_known_args()
         args = vars(known_args)
-
+        
         if args['types_add']:
             parser.add_argument(
                 "-x",
@@ -321,14 +321,14 @@ def get_function_args():
                 dest='dependencies',
                 type=str,
                 default=None)
-
+        
         if args['types_find']:
             parser.add_argument(
                 "-n",
                 dest='name',
                 type=str,
                 required=True)
-
+        
         if args['types_delete']:
             parser.add_argument(
                 "-id",
@@ -340,14 +340,14 @@ def get_function_args():
                 dest='next',
                 type=str,
                 default=None)
-
+        
         if args['types_restore']:
             parser.add_argument(
                 "-id",
                 dest='id',
                 type=str,
                 required=True)
-
+    
     # smart-xsd command line input
     if args['smart_xsd']:
         parser.add_argument(
@@ -355,14 +355,14 @@ def get_function_args():
             dest='template_name',
             type=str,
             default=None)
-
+    
     known_args, unknown_args = parser.parse_known_args()
     args = vars(known_args)
-
+    
     # get username and password
     if args['user'] is None: args['user'] = getpass.getuser()
     args['pswd'] = getpass.getpass()
-
+    
     return args
 
 
@@ -394,7 +394,7 @@ def write_xml_records(records):
 def print_xml_records(records):
     print("{} records were found in the repository.".format(len(records)))
     width = 25
-
+    
     column = "{0:"+str(width)+"}|{1:"+str(width)+"}|{2:25}|{3:25}"
     print(column.format("Title","Root Element","Record ID","Template ID"))
     for r in records:
@@ -416,7 +416,7 @@ def write_xsd_records(records):
 def print_xsd_records(records):
     print("{} schemas were found in the repository.".format(len(records)))
     width = 55
-
+    
     column = "{0:"+str(width)+"}|{1:"+str(width)+"}|{2:25}"
     print(column.format("Title","Filename","Template ID"))
     for r in records:
@@ -442,8 +442,8 @@ def curate(args):
             args['pswd'],
             cert=args['cert'],
             template_title=args['template_name'])
-        print("Successful upload of: {}".format(xml))
-
+        print("Successful upload of:{}".format(xml))
+        
     else:
         print("Performing automatic upload of multiple XML records")
         for xml in args['xml_file']:
@@ -456,8 +456,8 @@ def curate(args):
                 args['pswd'],
                 cert=args['cert'],
                 template_title=args['template_name'])
-
-            print("Successful upload of: {} as {}".format(xml, record_name))
+            
+            print("Successful upload of: {xml} as {record_name}")
 
 # blob rest actions
 def blob(args):
@@ -483,7 +483,7 @@ def explore(args):
                 args['pswd'],
                 cert=args['cert'])
             print("Successful deletion of: {}".format(args['record_id']))
-
+    
     elif any([args['template_name'],args['record_name'],args['record_id']]):
         if not any([args['download_json'],args['download_xml']]):
             records = mdcs.explore.select(
@@ -496,7 +496,7 @@ def explore(args):
                 template=args['template_name'],
                 title=args['record_name'])
             print_xml_records(records)
-
+        
         if args['download_json']:
             records = mdcs.explore.select(
                 args['host'],
@@ -508,7 +508,7 @@ def explore(args):
                 template=args['template_name'],
                 title=args['record_name'])
             write_json_records(records)
-
+        
         if args['download_xml']:
             records = mdcs.explore.select(
                 args['host'],
@@ -529,7 +529,7 @@ def explore(args):
                 cert=args['cert'],
                 format='json')
             print_xml_records(records)
-
+        
         if args['download_json']:
             records = mdcs.explore.select_all(
                 args['host'],
@@ -538,7 +538,7 @@ def explore(args):
                 cert=args['cert'],
                 format='json')
             write_json_records(records)
-
+        
         if args['download_xml']:
             records = mdcs.explore.select_all(
                 args['host'],
@@ -563,7 +563,7 @@ def templates(args):
         print("Success:")
         print("title:"),response['title']
         print("filename:"),response['filename']
-
+    
     elif args['templates_all']:
         templates = mdcs.templates.select_all(
             args['host'],
@@ -574,7 +574,7 @@ def templates(args):
             write_xsd_records(templates)
         else:
             print_xsd_records(templates)
-
+    
     elif args['templates_current']:
         templates = mdcs.templates.select_current(
             args['host'],
@@ -585,7 +585,7 @@ def templates(args):
             write_xsd_records(templates)
         else:
             print_xsd_records(templates)
-
+    
     elif args['templates_find']:
         template_id = mdcs.templates.current_id(
             args['host'],
@@ -594,8 +594,8 @@ def templates(args):
             cert=args['cert'],
             filename=args['name'],
             title=args['name'])
-        print("I found {}".format(template_id))
-
+        print("I found"),template_id
+    
     elif args['templates_delete']:
         response = mdcs.templates.delete(
             args['id'],
@@ -605,7 +605,7 @@ def templates(args):
             cert=args['cert'],
             next=args['next'])
         print(response)
-
+    
     elif args['templates_restore']:
         response = mdcs.templates.restore(
             args['id'],
@@ -630,7 +630,7 @@ def types(args):
         print("Success:")
         print("title: {}".format(response['title']))
         print("filename: {}".format(response['filename']))
-
+    
     elif args['types_all']:
         types = mdcs.types.select_all(
             args['host'],
@@ -641,7 +641,7 @@ def types(args):
             write_xsd_records(types)
         else:
             print_xsd_records(types)
-
+    
     elif args['types_current']:
         types = mdcs.types.select_current(
             args['host'],
@@ -652,7 +652,7 @@ def types(args):
             write_xsd_records(types)
         else:
             print_xsd_records(types)
-
+    
     elif args['types_find']:
         type_id = mdcs.types.current_id(
             args['host'],
@@ -661,8 +661,8 @@ def types(args):
             cert=args['cert'],
             filename=args['name'],
             title=args['name'])
-        print("I found {}".format(type_id))
-
+        print("I found"),type_id
+    
     elif args['types_delete']:
         response = mdcs.types.delete(
             args['id'],
@@ -672,7 +672,7 @@ def types(args):
             cert=args['cert'],
             next=args['next'])
         print(response)
-
+    
     elif args['types_restore']:
         response = mdcs.types.restore(
             args['id'],
@@ -686,30 +686,30 @@ def types(args):
 def xsd_type_dependencies(xsd_name):
     xsd_type=None
     xsd_dependencies=list()
-
+    
     with open(xsd_name, mode='r') as f:
         xsd_data = f.read()
-
+    
     hash_parser = etree.XMLParser(remove_blank_text=True,remove_comments=True,remove_pis=True)
     etree.set_default_parser(parser=hash_parser)
     xmlTree = etree.parse(BytesIO(xsd_data.encode('utf-8')))
     cleanXmlString = etree.tostring(xmlTree)
     xmlDict = xmltodict.parse(cleanXmlString, dict_constructor=dict)
-
+	
     root_content = xmlDict['xsd:schema'].keys()
-
+    
     if "xsd:element" in root_content or "xs:element" in root_content:
         xsd_type = "template"
     else:
         xsd_type = "type"
-
+    
     root = xmlTree.getroot()
-
+    
     for child in root:
         if "include" in child.tag or "import" in child.tag:
             child_xsd = child.attrib['schemaLocation']
             xsd_dependencies.append(child_xsd)
-
+    
     return xsd_type,xsd_dependencies
 
 def recursive_upload_xsd(xsd_name):
@@ -717,18 +717,18 @@ def recursive_upload_xsd(xsd_name):
     xsd_id=None
     xsd_id_list=list()
     xsd_type,xsd_dependencies = xsd_type_dependencies(xsd_name)
-
+    
     for xsd in xsd_dependencies:
         ref_xsd_id = recursive_upload_xsd(xsd)
-
+        
         xsd_id_list.append(str(ref_xsd_id))
-
+    
     dependencies = str(xsd_id_list)
     dependencies = dependencies.replace(" ","")
     dependencies = dependencies.replace("'","")
     dependencies = dependencies.replace("[","")
     dependencies = dependencies.replace("]","")
-
+    
     if xsd_type is 'type':
         xsd_id = mdcs.types.current_id(
             args['host'],
@@ -754,7 +754,7 @@ def recursive_upload_xsd(xsd_name):
                 title=name)
         else:
             print("found dependency {} as {}".format(name,xsd_id))
-
+            
     else:
         xsd_id = mdcs.templates.current_id(
             args['host'],
@@ -780,7 +780,7 @@ def recursive_upload_xsd(xsd_name):
                 title=name)
         else:
             print("found Template {} as {}".format(name,xsd_id))
-
+    
     return xsd_id
 
 # xsd smart uploader actions
