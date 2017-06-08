@@ -1,11 +1,11 @@
-#! /usr/bin/env python
 import requests
 from collections import OrderedDict
-from utils import check_response
+from .utils import check_response
 
-def select_all(host,user,pswd,cert=None,format=None):
+
+def select_all(host, user, pswd, cert=None, format=None):
     """Get all data from the MDCS server
-    
+
     Inputs:
         host - string, URL of MDCS instance
         user - string, username of desired account on MDCS server
@@ -22,13 +22,15 @@ def select_all(host,user,pswd,cert=None,format=None):
     """
     url = host.strip("/") + "/rest/explore/select/all"
     params = dict()
-    if format: params['dataformat'] = format
+    if format:
+        params['dataformat'] = format
     r = requests.get(url, params=params, auth=(user, pswd), verify=cert)
     return check_response(r)
 
-def select(host,user,pswd,cert=None,format=None,ID=None,template=None,title=None):
+
+def select(host, user, pswd, cert=None, format=None, ID=None, template=None, title=None):
     """Get all data that fits a certain simple query
-    
+
     Inputs:
         host - string, URL of MDCS instance
         user - string, username of desired account on MDCS server
@@ -48,16 +50,21 @@ def select(host,user,pswd,cert=None,format=None,ID=None,template=None,title=None
     """
     url = host.strip("/") + "/rest/explore/select"
     params = dict()
-    if format:   params['dataformat'] = format
-    if ID:       params['id']         = ID
-    if template: params['schema']     = template
-    if title:    params['title']      = title
+    if format:
+        params['dataformat'] = format
+    if ID:
+        params['id'] = ID
+    if template:
+        params['schema'] = template
+    if title:
+        params['title'] = title
     r = requests.get(url, params=params, auth=(user, pswd), verify=cert)
     return check_response(r)
-    
-def delete(ID,host,user,pswd,cert=None):
+
+
+def delete(ID, host, user, pswd, cert=None):
     """Delete an entry
-    
+
     Input:
         ID - string, ID of object to be deleted
         host - string, URL of MDCS instance
@@ -67,16 +74,17 @@ def delete(ID,host,user,pswd,cert=None):
     Output:
         response from MDCS
     """
-    
+
     url = host.strip("/") + "/rest/explore/delete"
     params = dict()
-    params['id']=ID
+    params['id'] = ID
     r = requests.delete(url, params=params, auth=(user, pswd), verify=cert)
     return check_response(r)
-    
-def query(host,user,pswd,cert=None,format=None,query=None,repositories=None):
+
+
+def query(host, user, pswd, cert=None, format=None, query=None, repositories=None):
     """Query by example.
-    
+
     Input:
         host - string, URL of MDCS instance
         user - string, username of desired account on MDCS server
@@ -94,8 +102,11 @@ def query(host,user,pswd,cert=None,format=None,query=None,repositories=None):
     """
     url = host.strip("/") + "/rest/explore/query-by-example"
     data = dict()
-    if format: data['dataformat'] = format
-    if query: data['query'] = query
-    if repositories: data['repositories'] = repositories
+    if format:
+        data['dataformat'] = format
+    if query:
+        data['query'] = query
+    if repositories:
+        data['repositories'] = repositories
     r = requests.post(url, data=data, auth=(user, pswd), verify=cert)
     return check_response(r)

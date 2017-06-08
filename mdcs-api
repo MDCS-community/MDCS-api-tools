@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 import argparse
 import getpass
 import mdcs
@@ -11,9 +11,11 @@ import xmltodict
 from io import BytesIO
 import codecs
 
-#-------------------------------------------------------------------------------
-# functions
-#-------------------------------------------------------------------------------
+'''
+-------------------------------------------------------------------------------
+functions
+-------------------------------------------------------------------------------
+'''
 
 # get command line input
 def get_function_args():
@@ -39,7 +41,7 @@ def get_function_args():
         help='[optional] Certificate file\n\n',
         metavar='<cert>')
     parser.add_argument(
-        '-curate', 
+        '-curate',
         action='store_true',
         dest='curate',
         help=
@@ -59,7 +61,7 @@ def get_function_args():
 
 ''')
     parser.add_argument(
-        '-explore', 
+        '-explore',
         action='store_true',
         dest='explore',
         help=
@@ -117,7 +119,7 @@ def get_function_args():
            
 ''')
     parser.add_argument(
-        '-smart-xsd', 
+        '-smart-xsd',
         action='store_true',
         dest='smart_xsd',
         help=
@@ -187,31 +189,31 @@ def get_function_args():
     # templates command line input
     if args['templates']:
         parser.add_argument(
-            '-add', 
+            '-add',
             action='store_true',
             dest='templates_add')
         parser.add_argument(
-            '-all', 
+            '-all',
             action='store_true',
             dest='templates_all')
         parser.add_argument(
-            '-download', 
+            '-download',
             action='store_true',
             dest='download_xsd')
         parser.add_argument(
-            '-current', 
+            '-current',
             action='store_true',
             dest='templates_current')
         parser.add_argument(
-            '-find', 
+            '-find',
             action='store_true',
             dest='templates_find')
         parser.add_argument(
-            '-delete', 
+            '-delete',
             action='store_true',
             dest='templates_delete')
         parser.add_argument(
-            '-restore', 
+            '-restore',
             action='store_true',
             dest='templates_restore')
         known_args, unknown_args = parser.parse_known_args()
@@ -363,6 +365,7 @@ def get_function_args():
     
     return args
 
+
 # write list of json results to disk
 def write_json_records(records):
     for item in records:
@@ -371,7 +374,7 @@ def write_json_records(records):
         content=item['content']
         content_root ,= content.keys()
         fname=content_title+"."+content_root+"."+content_id+".json"
-        print "Saving file:",fname
+        print("Saving file: {}".format(fname)),
         with codecs.open(fname, encoding='utf-8', mode='w+') as f:
             f.write("%s" % json.dumps(content,indent=4,separators=(',', ': ')))
 
@@ -383,39 +386,39 @@ def write_xml_records(records):
         content=item['content']
         content_root = content.split('\n')[1].split('>')[0].replace('<','')
         fname=content_title+"."+content_root+"."+content_id+".xml"
-        print "Saving file:",fname
+        print("Saving file: {}".format(fname))
         with codecs.open(fname, encoding='utf-8', mode='w+') as f:
             f.write(u'%s' % content)
 
 # write list of xml results to disk
 def print_xml_records(records):
-    print len(records)," records were found in the repository."
+    print("{} records were found in the repository.".format(len(records)))
     width = 25
     
     column = "{0:"+str(width)+"}|{1:"+str(width)+"}|{2:25}|{3:25}"
-    print column.format("Title","Root Element","Record ID","Template ID")
+    print(column.format("Title","Root Element","Record ID","Template ID"))
     for r in records:
         title = r['title']
         if len(title) > width:
             title = title[0:(width-3)]+"..."
-        print column.format(title,r['content'].keys()[0],r['_id'],r['schema'])
+        print(column.format(title,list(r['content'].keys())[0],r['_id'],r['schema']))
 
 # write list of xsd results to disk
 def write_xsd_records(records):
     for item in records:
         fname=item['filename']
         content=item['content']
-        print "Saving file:",fname
+        print("Saving file: {}".format(fname))
         with codecs.open(fname, encoding='utf-8', mode='w+') as f:
             f.write(u'%s' % content)
 
 # print list of xsd results to screen
 def print_xsd_records(records):
-    print len(records)," schemas were found in the repository."
+    print("{} schemas were found in the repository.".format(len(records)))
     width = 55
     
     column = "{0:"+str(width)+"}|{1:"+str(width)+"}|{2:25}"
-    print column.format("Title","Filename","Template ID")
+    print(column.format("Title","Filename","Template ID"))
     for r in records:
         title = r['title']
         if len(title) > width:
@@ -423,7 +426,7 @@ def print_xsd_records(records):
         filename = r['filename']
         if len(filename) > width:
             filename = filename[0:(width-3)]+"..."
-        print column.format(title,filename,r['id'])
+        print(column.format(title,filename,r['id']))
 
 # curate rest actions
 def curate(args):
@@ -439,10 +442,10 @@ def curate(args):
             args['pswd'],
             cert=args['cert'],
             template_title=args['template_name'])
-        print "Successful upload of:",xml
+        print("Successful upload of:{}".format(xml))
         
     else:
-        print "Performing automatic upload of multiple XML records"
+        print("Performing automatic upload of multiple XML records")
         for xml in args['xml_file']:
             record_name = xml.replace('.xml','')
             response = mdcs.curate_as(
@@ -454,24 +457,24 @@ def curate(args):
                 cert=args['cert'],
                 template_title=args['template_name'])
             
-            print "Successful upload of:",xml,"as",record_name
+            print("Successful upload of: {xml} as {record_name}")
 
 # blob rest actions
 def blob(args):
-    print mdcs.blob.upload(
+    print(mdcs.blob.upload(
         args['file'],
         args['host'],
         args['user'],
         args['pswd'],
-        cert=args['cert'])
+        cert=args['cert']))
 
 # explore rest actions
 def explore(args):
     if args['delete_record']:
         if any([args['template_name'],args['record_name'],args['download_json'],args['download_xml']]):
-            print "Option -explore -delete can only be used with -id"
+            print("Option -explore -delete can only be used with -id")
         elif not args['record_id']:
-            print "You must specifyt an id with -id"
+            print("You must specifyt an id with -id")
         else:
             response = mdcs.explore.delete(
                 args['record_id'],
@@ -479,7 +482,7 @@ def explore(args):
                 args['user'],
                 args['pswd'],
                 cert=args['cert'])
-            print "Successful deletion of:", args['record_id']
+            print("Successful deletion of: {}".format(args['record_id']))
     
     elif any([args['template_name'],args['record_name'],args['record_id']]):
         if not any([args['download_json'],args['download_xml']]):
@@ -557,9 +560,9 @@ def templates(args):
             cert=args['cert'],
             version=args['version'],
             dependencies=args['dependencies'])
-        print "Success:"
-        print "title:",response['title']
-        print "filename:",response['filename']
+        print("Success:")
+        print("title:"),response['title']
+        print("filename:"),response['filename']
     
     elif args['templates_all']:
         templates = mdcs.templates.select_all(
@@ -591,7 +594,7 @@ def templates(args):
             cert=args['cert'],
             filename=args['name'],
             title=args['name'])
-        print "I found",template_id
+        print("I found"),template_id
     
     elif args['templates_delete']:
         response = mdcs.templates.delete(
@@ -601,7 +604,7 @@ def templates(args):
             args['pswd'],
             cert=args['cert'],
             next=args['next'])
-        print response
+        print(response)
     
     elif args['templates_restore']:
         response = mdcs.templates.restore(
@@ -610,7 +613,7 @@ def templates(args):
             args['user'],
             args['pswd'],
             cert=args['cert'])
-        print response
+        print(response)
 
 # types rest actions
 def types(args):
@@ -624,9 +627,9 @@ def types(args):
             cert=args['cert'],
             version=args['version'],
             dependencies=args['dependencies'])
-        print "Success:"
-        print "title:",response['title']
-        print "filename:",response['filename']
+        print("Success:")
+        print("title: {}".format(response['title']))
+        print("filename: {}".format(response['filename']))
     
     elif args['types_all']:
         types = mdcs.types.select_all(
@@ -658,7 +661,7 @@ def types(args):
             cert=args['cert'],
             filename=args['name'],
             title=args['name'])
-        print "I found",type_id
+        print("I found"),type_id
     
     elif args['types_delete']:
         response = mdcs.types.delete(
@@ -668,7 +671,7 @@ def types(args):
             args['pswd'],
             cert=args['cert'],
             next=args['next'])
-        print response
+        print(response)
     
     elif args['types_restore']:
         response = mdcs.types.restore(
@@ -677,7 +680,7 @@ def types(args):
             args['user'],
             args['pswd'],
             cert=args['cert'])
-        print response
+        print(response)
 
 # xsd smart uploader functions
 def xsd_type_dependencies(xsd_name):
@@ -734,7 +737,7 @@ def recursive_upload_xsd(xsd_name):
             cert=args['cert'],
             title=name)
         if xsd_id is None:
-            print "uploading",name,"as",xsd_type
+            print("uploading {} as {}".format(name,xsd_type))
             response = mdcs.types.add(
                 xsd_name,
                 name,
@@ -750,7 +753,7 @@ def recursive_upload_xsd(xsd_name):
                 cert=args['cert'],
                 title=name)
         else:
-            print "found dependency",name,"as",xsd_id
+            print("found dependency {} as {}".format(name,xsd_id))
             
     else:
         xsd_id = mdcs.templates.current_id(
@@ -760,7 +763,7 @@ def recursive_upload_xsd(xsd_name):
             cert=args['cert'],
             title=name)
         if xsd_id is None:
-            print "uploading",name,"as",xsd_type
+            print("uploading {} as {}".format(name,xsd_type))
             response = mdcs.templates.add(
                 xsd_name,
                 name,
@@ -776,7 +779,7 @@ def recursive_upload_xsd(xsd_name):
                 cert=args['cert'],
                 title=name)
         else:
-            print "found Template",name,"as",xsd_id
+            print("found Template {} as {}".format(name,xsd_id))
     
     return xsd_id
 

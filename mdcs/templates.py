@@ -1,6 +1,5 @@
-#! /usr/bin/env python
 import requests
-from utils import check_response
+from .utils import check_response
 
 def add(filename,title,host,user,pswd,cert=None,version=None,dependencies=None):
     url = host.strip("/") + "/rest/templates/add"

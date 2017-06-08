@@ -1,6 +1,6 @@
-#! /usr/bin/env python
 from collections import OrderedDict
 import sys
+
 
 def check_response(r):
     try:
@@ -8,8 +8,8 @@ def check_response(r):
     except:
         r_content = r.text
     if str(r.status_code)[0] is not "2":
-        print "Error: ",r.status_code
-        print r.text
+        print("Error: {}".format(r.status_code))
+        print(r.text)
         sys.exit(0)
     else:
         return r_content
