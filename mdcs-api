@@ -457,7 +457,7 @@ def curate(args):
                 cert=args['cert'],
                 template_title=args['template_name'])
             
-            print("Successful upload of: {xml} as {record_name}")
+            print("Successful upload of: {} as {}".format(xml, record_name))
 
 # blob rest actions
 def blob(args):
@@ -594,7 +594,7 @@ def templates(args):
             cert=args['cert'],
             filename=args['name'],
             title=args['name'])
-        print("I found"),template_id
+        print("I found {}".format(template_id))
     
     elif args['templates_delete']:
         response = mdcs.templates.delete(
@@ -661,7 +661,7 @@ def types(args):
             cert=args['cert'],
             filename=args['name'],
             title=args['name'])
-        print("I found"),type_id
+        print("I found {}".format(type_id))
     
     elif args['types_delete']:
         response = mdcs.types.delete(
